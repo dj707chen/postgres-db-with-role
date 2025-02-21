@@ -19,6 +19,10 @@ EOSQL
   psql -v ON_ERROR_STOP=1 --username "$user" -d "$database" <<-EOSQL
     GRANT ALL PRIVILEGES ON DATABASE "$database" TO "$role";
 EOSQL
+  echo "Granting all privileges on schema 'public' to role '$role'"
+  psql -v ON_ERROR_STOP=1 --username "$user" -d "$database" <<-EOSQL
+    GRANT ALL PRIVILEGES ON SCHEMA public TO "$role";
+EOSQL
 }
 
 create_role_in_db $POSTGRES_DB $POSTGRES_USER $POSTGRES_ROLE
