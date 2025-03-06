@@ -27,7 +27,7 @@ EOSQL
 
 create_role_in_db $POSTGRES_DB $POSTGRES_USER $POSTGRES_ROLE
 
-# Optionally create a test user if TEST_USERNAME and TEST_USER_PASSWORD variables are define, test container then connect to it
+# Optionally create a test user if both environmental variables TEST_USERNAME and TEST_USER_PASSWORD are defined
 if [[ ${TEST_USERNAME+x} && ${TEST_USER_PASSWORD+x} ]]; then
   echo "Creating test user '$TEST_USERNAME'"
   psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" -d "$POSTGRES_DB" <<-EOSQL
