@@ -2,17 +2,12 @@
 
 Control role and test user creation by environment variables:
 
-## Environment variables: `POSTGRES_DB`, `POSTGRES_USER` and `POSTGRES_ROLE`
+## Environment variables: `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD` and `POSTGRES_ROLE`
 
 Environmental variable that delegates a Role to create:
 - Create the role with the name `$POSTGRES_ROLE`;
 - Grant all permissions on `$POSTGRES_DB` and schema `public` to this new role;
 - Give that role to `$POSTGRES_USER`.
-
-## Optional environment variables: `TEST_USERNAME` and `TEST_USER_PASSWORD`
-
-If both environmental variables `TEST_USERNAME` and `TEST_USER_PASSWORD` are set,
-create user `$TEST_USERNAME` with password `$TEST_USER_PASSWORD` in role `$POSTGRES_ROLE`.
 
 ## How to use
 ```scala
@@ -24,10 +19,9 @@ trait MigrationsSpec extends Specification {
       .configure { c =>
         c.withUsername("postgres")
         c.withEnv("POSTGRES_DB", "test_db")
-        c.withEnv("POSTGRES_USER", "postgres")
+        c.withEnv("POSTGRES_USER", "dbUsername")
+        c.withEnv("POSTGRES_PASSWORD", "dbPassword")
         c.withEnv("POSTGRES_ROLE", "service_role")
-        c.withEnv("TEST_USERNAME", dbUsername)
-        c.withEnv("TEST_USER_PASSWORD", dbPassword)
         c.waitingFor(new HostPortWaitStrategy())
         ()
       }
